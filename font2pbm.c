@@ -29,7 +29,7 @@ struct pbm
     char *data;
 };
 
-char *readfile(FILE *);
+char *readfile(FILE *, int);
 struct pbm createpbm(int, int, const char *, int chars);
 void printpbm(struct pbm);
 
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     }
 
     /* Read data */
-    data = readfile(file);
+    data = readfile(file, chars * xsize * ysize * 8);
     if (4 == argc)
     {
         fclose(file);
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-char *readfile(FILE *file)
+char *readfile(FILE *file, int bytes)
 {
     char *buffer;
     size_t length;
@@ -127,8 +127,8 @@ char *readfile(FILE *file)
     buffer = (char *) malloc(2048);
     if (buffer)
     {
-        length = fread(buffer, 1, 2048, file);
-        if (length != 2048)
+        length = fread(buffer, 1, bytes, file);
+        if (length != bytes)
         {
             free(buffer);
             buffer = NULL;
