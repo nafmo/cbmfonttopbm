@@ -1,7 +1,7 @@
 /*
  * font2pbm
  * Convert a Commodore 64 font to a Portable Bitmap (PBM) file.
- * Copyright 2003 Peter Karlsson <peter@softwolves.pp.se>
+ * Copyright 2003-2004 Peter Karlsson <peter@softwolves.pp.se>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2, as
