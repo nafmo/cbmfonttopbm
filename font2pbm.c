@@ -21,23 +21,24 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 /* Holder structure for a portable bitmap */
 struct pbm
 {
     int x, y;
-    char *data;
+    uint8_t *data;
 };
 
-char *readfile(FILE *, int);
-struct pbm createpbm(int, int, const char *, int chars);
+uint8_t *readfile(FILE *, int, int);
+struct pbm createpbm(int, int, const uint8_t *, int chars);
 void printpbm(struct pbm);
 
 int main(int argc, char *argv[])
 {
     int xsize, ysize, chars, skip;
     FILE *file;
-    char *data;
+    uint8_t *data;
     struct pbm pbm;
 
     /* Check for -r flag */
@@ -128,9 +129,9 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-char *readfile(FILE *file, int bytes)
+uint8_t *readfile(FILE *file, int bytes, int skip)
 {
-    char *buffer;
+    uint8_t *buffer;
     size_t length;
     int i;
 
@@ -141,7 +142,7 @@ char *readfile(FILE *file, int bytes)
     }
 
     /* Slurp everything */
-    buffer = (char *) malloc(bytes);
+    buffer = (uint8_t *) malloc(bytes);
     if (buffer)
     {
         length = fread(buffer, 1, bytes, file);
@@ -155,7 +156,7 @@ char *readfile(FILE *file, int bytes)
     return buffer;
 }
 
-struct pbm createpbm(int x, int y, const char *data, int numchars)
+struct pbm createpbm(int x, int y, const uint8_t *data, int numchars)
 {
     int charsperline, i;
     struct pbm output;
