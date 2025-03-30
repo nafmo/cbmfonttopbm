@@ -1,7 +1,7 @@
 /*
  * font2pbm
  * Convert a Commodore 64 font to a Portable Bitmap (PBM) file.
- * Copyright 2003-2004 Peter Karlsson <peter@softwolves.pp.se>
+ * Copyright 2003-2025 Peter Krefting <peter@softwolves.pp.se>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2, as
@@ -124,7 +124,7 @@ char *readfile(FILE *file, int bytes)
     fgetc(file);
 
     /* Slurp everything */
-    buffer = (char *) malloc(2048);
+    buffer = (char *) malloc(bytes);
     if (buffer)
     {
         length = fread(buffer, 1, bytes, file);
