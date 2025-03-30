@@ -35,15 +35,29 @@ void printpbm(struct pbm);
 
 int main(int argc, char *argv[])
 {
-    int xsize, ysize, chars;
+    int xsize, ysize, chars, skip;
     FILE *file;
     char *data;
     struct pbm pbm;
 
+    /* Check for -r flag */
+    if (argc >= 2 && strcmp(argv[1], "-r") == 0)
+    {
+        skip = 0;
+        -- argc;
+        ++ argv;
+    }
+    else
+    {
+        /* Skip load address */
+        skip = 2;
+    }
+
     /* Help screen */
     if (argc < 3 || argc > 5)
     {
-        printf("Usage: %s size num [filename]\n\n"
+        printf("Usage: %s [-r] size num [filename]\n\n"
+               "  -r:        ROM image (no load address)\n"
                "  size:      1x1, 1x2, 2x1 or 2x2\n"
                "  num:       Number of characters in font\n"
                "  filename:  Name of file to read\n",
@@ -84,7 +98,7 @@ int main(int argc, char *argv[])
     }
 
     /* Read data */
-    data = readfile(file, chars * xsize * ysize * 8);
+    data = readfile(file, chars * xsize * ysize * 8, skip);
     if (4 == argc)
     {
         fclose(file);
@@ -118,10 +132,13 @@ char *readfile(FILE *file, int bytes)
 {
     char *buffer;
     size_t length;
+    int i;
 
     /* Skip load address */
-    fgetc(file);
-    fgetc(file);
+    for (i = 0; i < skip; ++ i)
+    {
+        fgetc(file);
+    }
 
     /* Slurp everything */
     buffer = (char *) malloc(bytes);
